@@ -1,17 +1,26 @@
 class Solution {
 public:
-
-    int helper(int i ,int j, vector<vector<int>>& triangle,vector<vector<int>>& dp){
-        int m = triangle.size();
-        if(i == m-1) return triangle[i][j];
-        if(dp[i][j] != INT_MAX) return dp[i][j];
-        int takei = triangle[i][j] + helper(i+1,j,triangle,dp);
-        int takej = triangle[i][j] + helper(i+1,j+1,triangle,dp);
-        return dp[i][j]=min(takei,takej);
-    }
     int minimumTotal(vector<vector<int>>& triangle) {
         int n = triangle.size();
         vector<vector<int>>dp(n,vector<int>(n,INT_MAX));
-        return helper(0,0,triangle,dp);
+        dp[0][0] = triangle[0][0];
+        for(int i = 1 ; i < n ; i++){
+            for(int j = 0 ; j <= i ; j++){
+                if(j == 0){
+                    dp[i][j] = triangle[i][j] + dp[i-1][j];
+                }else if(j == i){
+                    dp[i][j] = triangle[i][j] + dp[i-1][j-1];
+                }else{
+                int takei =  triangle[i][j] + dp[i-1][j];
+                int takej = triangle[i][j] + dp[i-1][j-1];
+                dp[i][j] = min(takei,takej);
+                }
+            }
+        }
+        int ans = INT_MAX;
+        for(int j = 0 ; j < n ; j++){
+            ans = min(ans,dp[n-1][j]);
+        }
+        return ans;
     }
 };
