@@ -1,7 +1,6 @@
 class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        int ones = 0;
         int m = mat.size();
         int n = mat[0].size();
         vector<vector<int>>distance(m,vector<int>(n,-1));
